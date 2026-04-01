@@ -8,6 +8,7 @@
     <Title>Fiji.NET</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>logo.png</PackageIcon>
+	<Version>0.1.0</Version>
   </PropertyGroup>
 	<ItemGroup>
 		<IkvmReference Include="ij-1.53f.jar">
