@@ -10,16 +10,16 @@ This project bridges the Java-based imaging ecosystem (ImageJ/Fiji/Bio-Formats) 
 
 ## ⚠️ Important Compatibility Note
 
-This project is based on the **last Java 8–compatible Fiji stack**.
+This project uses **IKVM11** and the Java 11 class library.
 
 Implications:
 
-* Uses legacy ImageJ + SciJava ecosystem versions
-* Newer Fiji / ImageJ2 features (Java 11+) are **not available**
+* The bundled Fiji stack remains version-pinned for reproducible .NET builds
+* Java 11 APIs are available to converted libraries
 * Some plugins may not function under IKVM
 * SciJava command discovery is **partially limited**
 
-This tradeoff is required because IKVM targets Java 8 bytecode compatibility.
+The embedded runtime is supplied by the IKVM11 package.
 
 ---
 
@@ -61,7 +61,7 @@ No manual jar management is required.
    ↓
 IKVM Runtime
    ↓
-Fiji / ImageJ (Java 8)
+Fiji / ImageJ (Java 11)
    ↓
 Bio-Formats
    ↓

@@ -8,7 +8,16 @@
     <Title>Fiji.NET</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>logo.png</PackageIcon>
-	<Version>0.1.0</Version>
+	<Version>0.1.1</Version>
+	<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	<RepositoryUrl>https://github.com/BiologyTools/Fiji.NET</RepositoryUrl>
+	<PackageTags>imagej;fiji;microscopy</PackageTags>
+	<PackageReleaseNotes>Adds full support for MacOS with latest IKVM11 fixes.</PackageReleaseNotes>
+	<Description>Fiji.NET provides a way to run Fiji (ImageJ distribution) and Bio-Formats inside a .NET application using IKVM. It enables loading, processing, and converting microscopy images directly from C# without requiring a separate Java runtime environment at execution time.</Description>
+	<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeIkvmReferencesInPackage</TargetsForTfmSpecificBuildOutput>
+	<Java11IkvmCompilerToolPath Condition="'$(Java11IkvmCompilerToolPath)' == ''">$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\..\..\ikvm\src\ikvmc\bin\$(Configuration)\net10.0\win-x64\'))</Java11IkvmCompilerToolPath>
+	<IkvmCacheDir Condition="'$(IkvmCacheDir)' == ''">$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\$(BaseIntermediateOutputPath)$(Configuration)\$(TargetFramework)\ikvm\cache\java11\'))</IkvmCacheDir>
   </PropertyGroup>
 	<ItemGroup>
 		<IkvmReference Include="ij-1.53f.jar">
@@ -23,16 +32,8 @@
 		</IkvmReference>
 	</ItemGroup>
 	<ItemGroup>
-		<Content Include="fiji.dll">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<Pack>True</Pack>
-			<PackagePath>\lib\net10.0</PackagePath>
-		</Content>
-	</ItemGroup>	
-	
-  <ItemGroup>
-    <PackageReference Include="IKVM" Version="8.15.0" />
-  </ItemGroup>
+	  <PackageReference Include="IKVM11" Version="8.15.2" />
+	</ItemGroup>
   <ItemGroup>
     <None Update="logo.png">
       <Pack>True</Pack>
@@ -43,4 +44,17 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
+
+	<Target Name="UseJava11IkvmCompiler" BeforeTargets="_CompileIkvmReferences">
+		<Error Text="The Java 11 IKVM compiler was not found at '$(Java11IkvmCompilerToolPath)'. Build the sibling ikvm repository or set Java11IkvmCompilerToolPath to the directory containing ikvmc.exe." Condition="!Exists('$(Java11IkvmCompilerToolPath)ikvmc.exe')" />
+		<PropertyGroup>
+			<IkvmCompilerToolPath>$(Java11IkvmCompilerToolPath)</IkvmCompilerToolPath>
+		</PropertyGroup>
+	</Target>
+
+	<Target Name="IncludeIkvmReferencesInPackage" DependsOnTargets="CompileIkvmReferences">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(IkvmReferenceItem->'%(CachePath)')" Condition="Exists('%(IkvmReferenceItem.CachePath)')" />
+		</ItemGroup>
+	</Target>
 </Project>
