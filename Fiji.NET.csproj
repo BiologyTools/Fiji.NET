@@ -8,7 +8,7 @@
     <Title>Fiji.NET</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>logo.png</PackageIcon>
-	<Version>0.1.1</Version>
+	<Version>0.1.2</Version>
 	<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
 	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	<RepositoryUrl>https://github.com/BiologyTools/Fiji.NET</RepositoryUrl>
@@ -32,7 +32,7 @@
 		</IkvmReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="IKVM11" Version="8.15.2" />
+	  <PackageReference Include="IKVM11" Version="8.15.3" />
 	</ItemGroup>
   <ItemGroup>
     <None Update="logo.png">
@@ -52,9 +52,12 @@
 		</PropertyGroup>
 	</Target>
 
-	<Target Name="IncludeIkvmReferencesInPackage" DependsOnTargets="CompileIkvmReferences">
+	<Target Name="IncludeIkvmReferencesInPackage" Condition="'$(DesignTimeBuild)' != 'true'">
+		<Error Condition="'$(CompileIkvmReferencesDependsOn)' == ''" Text="The IKVM11 build targets are unavailable. Restore NuGet packages before packing Fiji.NET." />
+		<Error Condition="!Exists('$(TargetDir)fiji.dll')" Text="The compiled Fiji assembly was not found at '$(TargetDir)fiji.dll'. Build Fiji.NET before packing it." />
 		<ItemGroup>
-			<BuildOutputInPackage Include="@(IkvmReferenceItem->'%(CachePath)')" Condition="Exists('%(IkvmReferenceItem.CachePath)')" />
+			<!-- IKVM can clean its cache before NuGet collects the build output. -->
+			<BuildOutputInPackage Include="$(TargetDir)fiji.dll" />
 		</ItemGroup>
 	</Target>
 </Project>
