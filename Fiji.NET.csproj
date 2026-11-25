@@ -13,7 +13,7 @@
 	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	<RepositoryUrl>https://github.com/BiologyTools/Fiji.NET</RepositoryUrl>
 	<PackageTags>imagej;fiji;microscopy</PackageTags>
-	<PackageReleaseNotes>Adds full support for MacOS with latest IKVM11 fixes.</PackageReleaseNotes>
+	<PackageReleaseNotes>Additional Java AWT GUI fixes for MacOS.</PackageReleaseNotes>
 	<Description>Fiji.NET provides a way to run Fiji (ImageJ distribution) and Bio-Formats inside a .NET application using IKVM. It enables loading, processing, and converting microscopy images directly from C# without requiring a separate Java runtime environment at execution time.</Description>
 	<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeIkvmReferencesInPackage</TargetsForTfmSpecificBuildOutput>
 	<Java11IkvmCompilerToolPath Condition="'$(Java11IkvmCompilerToolPath)' == ''">$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\..\..\ikvm\src\ikvmc\bin\$(Configuration)\net10.0\win-x64\'))</Java11IkvmCompilerToolPath>
