@@ -8,12 +8,15 @@
     <Title>Fiji.NET</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>logo.png</PackageIcon>
-	<Version>0.1.2</Version>
+	<Version>0.1.3</Version>
 	<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
 	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	<RepositoryUrl>https://github.com/BiologyTools/Fiji.NET</RepositoryUrl>
 	<PackageTags>imagej;fiji;microscopy</PackageTags>
-	<PackageReleaseNotes>Additional Java AWT GUI fixes for MacOS.</PackageReleaseNotes>
+	<PackageReleaseNotes>
+		- Updates IKVM11 to 8.15.5, bringing the complete managed runtime and corrected Java AWT libraries to Intel and Apple Silicon Macs. This restores support for embedded ImageJ dialogs on both architectures.
+		- Resolves an MSBuild task initialization error that occurred when NuGet selected an older version of the IKVM build tools.
+	</PackageReleaseNotes>
 	<Description>Fiji.NET provides a way to run Fiji (ImageJ distribution) and Bio-Formats inside a .NET application using IKVM. It enables loading, processing, and converting microscopy images directly from C# without requiring a separate Java runtime environment at execution time.</Description>
 	<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeIkvmReferencesInPackage</TargetsForTfmSpecificBuildOutput>
 	<Java11IkvmCompilerToolPath Condition="'$(Java11IkvmCompilerToolPath)' == ''">$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\..\..\ikvm\src\ikvmc\bin\$(Configuration)\net10.0\win-x64\'))</Java11IkvmCompilerToolPath>
