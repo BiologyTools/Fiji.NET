@@ -32,7 +32,7 @@
 		</IkvmReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="IKVM11" Version="8.15.3" />
+	  <PackageReference Include="IKVM11" Version="8.15.5" />
 	</ItemGroup>
   <ItemGroup>
     <None Update="logo.png">
